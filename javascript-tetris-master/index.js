@@ -170,6 +170,7 @@ function resize(event) {
     invalidateNext();
 }
 
+//TODO: entfernen und durch Schnittstelle erstezen
 function keydown(ev) {
     var handled = false;
     if (playing) {
