@@ -12,6 +12,8 @@ function timestamp() { return new Date().getTime(); }
 function random(min, max) { return (min + (Math.random() * (max - min))); }
 function randomChoice(choices) { return choices[Math.round(random(0, choices.length - 1))]; }
 
+import keydown_imp from './keylogger.js';
+
 if (!window.requestAnimationFrame) { // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
     window.requestAnimationFrame = window.webkitRequestAnimationFrame ||
         window.mozRequestAnimationFrame ||
@@ -52,7 +54,8 @@ var dx, dy,        // pixel size of a single tetris block
     score,         // the current score
     vscore,        // the currently displayed score (it catches up to score in small chunks - like a spinning slot machine)
     rows,          // number of completed rows in the current game
-    step;          // how long before current piece drops by 1 row
+    step,          // how long before current piece drops by 1 row
+    now;
 
 //-------------------------------------------------------------------------
 // tetris pieces
@@ -170,16 +173,15 @@ function resize(event) {
     invalidateNext();
 }
 
-//TODO: entfernen und durch Schnittstelle erstezen
 function keydown(ev) {
     var handled = false;
     if (playing) {
-        switch (ev.keyCode) {
-            case KEY.LEFT: actions.push(DIR.LEFT); handled = true; break;
-            case KEY.RIGHT: actions.push(DIR.RIGHT); handled = true; break;
-            case KEY.UP: actions.push(DIR.UP); handled = true; break;
-            case KEY.DOWN: actions.push(DIR.DOWN); handled = true; break;
-            case KEY.ESC: lose(); handled = true; break;
+        var direction = keydown_imp(ev);
+        switch (direction) {
+            case "left": actions.push(DIR.LEFT); handled = true; break;
+            case "right": actions.push(DIR.RIGHT); handled = true; break;
+            case "up": actions.push(DIR.UP); handled = true; break;
+            case "down": actions.push(DIR.DOWN); handled = true; break;
         }
     }
     else if (ev.keyCode == KEY.SPACE) {
@@ -189,7 +191,6 @@ function keydown(ev) {
     if (handled)
         ev.preventDefault(); // prevent arrow keys from scrolling the page (supported in IE9+ and all other browsers)
 }
-
 //-------------------------------------------------------------------------
 // GAME LOGIC
 //-------------------------------------------------------------------------
