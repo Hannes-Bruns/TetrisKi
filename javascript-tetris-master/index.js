@@ -13,6 +13,8 @@ function random(min, max) { return (min + (Math.random() * (max - min))); }
 function randomChoice(choices) { return choices[Math.round(random(0, choices.length - 1))]; }
 
 import keydown_imp from './keylogger.js';
+// import getStats from "./keylogger.js";
+// import getReward from "./keylogger.js";
 
 if (!window.requestAnimationFrame) { // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
     window.requestAnimationFrame = window.webkitRequestAnimationFrame ||
@@ -246,6 +248,7 @@ function handle(action) {
 
 function move(dir) {
     var x = current.x, y = current.y;
+
     switch (dir) {
         case DIR.RIGHT: x = x + 1; break;
         case DIR.LEFT: x = x - 1; break;
@@ -281,6 +284,7 @@ function drop() {
         if (occupied(current.type, current.x, current.y, current.dir)) {
             lose();
         }
+        // getStats(dx, dy, current);
     }
 }
 
