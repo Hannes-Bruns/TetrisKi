@@ -7,12 +7,12 @@ export default function keydown_imp(ev) {
         case KEY.UP: direction = "up"; break;
         case KEY.DOWN: direction = "down"; break;
     }
-    let result = brain.forward();
+    //let result = brain.forward();
     return direction;
 }
 
-export function getStats(width_current, height_current, piece) {
-    console.log("Width: " + width_current + " Height: " + height_current, " piece: " + piece);
+export function getStats(piece, blocks) {
+    console.log(blocks);
 }
 
 export function getReward() {

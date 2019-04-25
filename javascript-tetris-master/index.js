@@ -13,7 +13,7 @@ function random(min, max) { return (min + (Math.random() * (max - min))); }
 function randomChoice(choices) { return choices[Math.round(random(0, choices.length - 1))]; }
 
 import keydown_imp from './keylogger.js';
-// import getStats from "./keylogger.js";
+import { getStats } from "./keylogger.js";
 // import getReward from "./keylogger.js";
 
 if (!window.requestAnimationFrame) { // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
@@ -207,7 +207,7 @@ function clearScore() { setScore(0); }
 function clearRows() { setRows(0); }
 function setRows(n) { rows = n; step = Math.max(speed.min, speed.start - (speed.decrement * rows)); invalidateRows(); }
 function addRows(n) { setRows(rows + n); }
-function getBlock(x, y) { return (blocks && blocks[x] ? blocks[x][y] : null); }
+function getBlock(x, y) { return (blocks && blocks[x] && blocks[x][y] ? blocks[x][y] : null); }
 function setBlock(x, y, type) { blocks[x] = blocks[x] || []; blocks[x][y] = type; invalidate(); }
 function clearBlocks() { blocks = []; invalidate(); }
 function clearActions() { actions = []; }
@@ -248,7 +248,8 @@ function handle(action) {
 
 function move(dir) {
     var x = current.x, y = current.y;
-
+    getStats(current, blocks)
+    //TODO Daten von current ausgeben
     switch (dir) {
         case DIR.RIGHT: x = x + 1; break;
         case DIR.LEFT: x = x - 1; break;
